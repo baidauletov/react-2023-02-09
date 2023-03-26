@@ -1,38 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Cart } from "../../components/Cart/Cart";
-import { Restaurant } from "../../components/Restaurant/Restaurant";
-import { RestaurantTabs } from "../../containers/RestaurantTabs/RestaurantTabs";
-import { restaurantActions } from "../../store/entities/restaurant";
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Cart } from '../../components/Cart/Cart'
+import { Restaurant } from '../../components/Restaurant/Restaurant'
+import { RestaurantTabs } from '../../containers/RestaurantTabs/RestaurantTabs'
+import { loadRestaurantIfNotExist } from '../../store/entities/restaurant/thunks/loadRestaurantsIfNotExist'
 import {
   selectIsRestaurantLoaded,
   selectIsRestaurantLoading,
   selectRestaurantIds,
-} from "../../store/entities/restaurant/selectors";
+} from '../../store/entities/restaurant/selectors'
 
-import styles from "./styles.module.css";
+import styles from './styles.module.css'
+import { loadUsersIfNotExists } from '../../store/entities/user/thunks/loadUsersIfNotExist'
 
 export const RestaurantPage = () => {
-  const dispatch = useDispatch();
-  const restaurantIds = useSelector(selectRestaurantIds);
-  const [activeRestaurantId, setActiveRestaurantId] = useState(
-    restaurantIds[0]
-  );
-  const isLoading = useSelector(selectIsRestaurantLoading);
-  const isLoaded = useSelector(selectIsRestaurantLoaded);
+  const dispatch = useDispatch()
+  const restaurantIds = useSelector(selectRestaurantIds)
+  const [activeRestaurantId, setActiveRestaurantId] = useState(restaurantIds[0])
+  const isLoading = useSelector(selectIsRestaurantLoading)
+  const isLoaded = useSelector(selectIsRestaurantLoaded)
 
   useEffect(() => {
-    dispatch(restaurantActions.loadRestaurantsAction());
-  }, []);
+    dispatch(loadUsersIfNotExists)
+    dispatch(loadRestaurantIfNotExist)
+  }, [])
 
   useEffect(() => {
     if (isLoaded) {
-      setActiveRestaurantId(restaurantIds[0]);
+      setActiveRestaurantId(restaurantIds[0])
     }
-  }, [isLoaded]);
+  }, [isLoaded])
 
   if (isLoading) {
-    return <span>Loading...</span>;
+    return <span>Loading...</span>
   }
 
   return (
@@ -46,5 +46,5 @@ export const RestaurantPage = () => {
       </div>
       <Cart />
     </div>
-  );
-};
+  )
+}

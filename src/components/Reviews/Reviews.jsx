@@ -1,13 +1,25 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { selectRestaurantReviewsById } from "../../store/entities/restaurant/selectors";
-import { Review } from "../Review/Review";
-import styles from "./styles.module.css";
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectIsReviewLoading } from '../../store/entities/review/selectors'
+import { loadReviewsIfNotExist } from '../../store/entities/review/thunks/loadReviewsIfNotExist'
+import { selectRestaurantReviewsById } from '../../store/entities/restaurant/selectors'
+import { Review } from '../Review/Review'
+import styles from './styles.module.css'
 
 export const Reviews = ({ restaurantId }) => {
+  const dispatch = useDispatch()
   const reviews = useSelector((state) =>
     selectRestaurantReviewsById(state, { restaurantId })
-  );
+  )
+
+  const isLoading = useSelector(selectIsReviewLoading)
+  useEffect(() => {
+    dispatch(loadReviewsIfNotExist(restaurantId))
+  }, [restaurantId])
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <div>
@@ -18,5 +30,5 @@ export const Reviews = ({ restaurantId }) => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
