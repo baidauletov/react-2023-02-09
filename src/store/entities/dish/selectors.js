@@ -17,3 +17,8 @@ export const selectIsDishLoading = (state) =>
 
 export const selectIsDishLoaded = (state) =>
   selectDishLoadingStatus(state) === REQUEST_STATUSES.success;
+
+export const selectDishByName = (state, { searchName = "" }) =>
+  selectDishes(state).filter(({ name }) =>
+    name.toLowerCase().includes(searchName.toLowerCase())
+  );

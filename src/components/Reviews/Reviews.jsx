@@ -4,11 +4,13 @@ import { selectRestaurantReviewsById } from "../../store/entities/restaurant/sel
 import { selectIsReviewLoading } from "../../store/entities/review/selectors";
 import { loadReviewsIfNotExist } from "../../store/entities/review/thunks/loadReviewsIfNotExist";
 import { loadUserIfNotExist } from "../../store/entities/user/thunks/loadUsersIfNotExist";
+import { useParams } from "react-router-dom"
 import { Review } from "../Review/Review";
 import styles from "./styles.module.css";
 
-export const Reviews = ({ restaurantId }) => {
+export const Reviews = () => {
   const dispatch = useDispatch();
+  const { restaurantId } = useParams()
   const reviews = useSelector((state) =>
     selectRestaurantReviewsById(state, { restaurantId })
   );

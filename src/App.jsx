@@ -5,8 +5,12 @@ import { Restaurant } from "./components/Restaurant/Restaurant";
 import { CartPage } from "./pages/CartPage/CartPage";
 import { HomePage } from "./pages/HomePage/HomePage";
 import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
+import { Reviews } from "./components/Reviews/Reviews";
+import { Menu } from "./components/Menu/Menu";
 
 import { RestaurantPage } from "./pages/RestaurantPage/RestaurantPage";
+import { DishesPage } from "./pages/DishesPage/DishesPage";
+import { DishPage } from "./pages/DishPage/DishPage";
 
 export const App = () => {
   return (
@@ -17,7 +21,14 @@ export const App = () => {
           <Route index element={<HomePage />} />
           <Route path="restaurants" element={<RestaurantPage />}>
             <Route index element={<span>Select restaurant</span>} />
-            <Route path=":restaurantId" element={<Restaurant />} />
+            <Route path=":restaurantId" element={<Restaurant />} >
+              <Route path="menu" element={<Menu />} />
+              <Route path="reviews" element={<Reviews />} />
+            </Route>
+          </Route>
+          <Route path="dishes">
+            <Route index element={<DishesPage />} />
+            <Route path=":dishId" element={<DishPage />} />
           </Route>
           <Route path="cart" element={<CartPage />} />
           <Route path="redirect" element={<Navigate to="/" replace />} />
